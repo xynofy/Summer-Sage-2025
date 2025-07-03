@@ -1,0 +1,68 @@
+﻿Hugging Face is a company that constructed the FineWeb dataset which decants the web for the finest text data (ChatGPT, google ai, etc, use some equivalent of FineWeb). (uses 15 trillion tokens and 44TB of disk space). Used CommonCrawl to scour the internet. Raw HTML saved.
+
+
+Steps for gathering raw data:
+1. Base Filtering - removes lower quality data and blacklisted content
+2. Language Filtering - ex: only use the site if at least 60% is English
+
+
+Have neural networks mimic how the FineWeb text is shown.
+
+
+Change text data into a “bit” version of 0’s and 1’s so the computer can read, and instead of words use small strings of 0’1s and 1’s to create bytes. Ex: with a string of 8 bits per byte, there are only 256 combinations which reduces the dataset by a lot. Bytes range from 0-255 in this case. Each byte is a unique symbol.
+
+
+Now find common patterns in the byte data set (consecutive symbols showing up frequently). Now Group those common patterns into their own symbols. Ex: 116 followed by 32 turns into 11632). These are called tokens and this process is called tokenization.
+
+
+Pretraining:
+Take a sample of tokens and predict what comes next.
+Calculates probability of the following token. (if 100,000 tokens are inputted, 100,000 probabilities are calculated).
+
+
+Using the correct answer for the following token, it increases the probability of that token and decreases the probability of all other tokens. That is how the training process goes.
+Sequence of updating the prediction until it matches the correct data set.
+
+
+Token inputs “x” and random weights “w” go through a giant mathematical expression to produce an output.
+
+
+Transformer - filled with input and output neurons and multi perceptron layer and a lot of other calculations to produce the output or prediction.
+
+
+Inference - predict one token at a time
+
+
+Step: what step of the training process your neural network is on (ex: 401/32000)
+Loss: How well your neural network is performing. Low loss is better  (ex: 5.4324). For AI research, you are studying if loss goes down.
+Norm: Measures the magnitude of gradients during backpropagation
+LR: Learning rate
+MFU: Model FLOPs Utilization - measures how efficiently your hardware is being used. 
+
+
+Computing and training is too large so you have to rent a computer from somewhere else. (Ex: Lambda)
+
+
+Post-Training:
+New data set of conversations rather than online documents.
+Special and new tokens are added like <im_start>, <im_sep>, <im_end> to get the model to learn how to talk like a human.
+
+
+Hallucinations is when a model says it knows something that isn’t true or real. This can be fixed with probing where you keep checking the factuality or correctness of the answer, and if enough data points to incorrectness, it generates a refusal instead.
+
+
+Mitigation #1:
+Interrogate the model to find out what it knows
+
+
+Mitigation #2: 
+Allow the model to search the web
+
+
+“Use code” will generate more accurate results for computations. Because the model is better at copy pasting.
+
+
+Reinforcement Learning - resample the same prompt and solution and encourage the solutions that lead to correct answers
+
+
+Reward Model: completely separate neural network with a new transformer that takes a prompt and a candidate answer. This answer is scored similarly to how a human would score how well an answer is. Ex: prompt: Tell me a joke about pelicans. Candidate answer: (the joke). RLHF - Reinforcement Learning with Human Feedback
